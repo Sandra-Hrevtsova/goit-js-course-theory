@@ -3,7 +3,7 @@
 - Multiplatform
 - CrossBrowser
 - EcmaScript (versions)
-2. <script src='./file.js'></script>
+2. `<script src='./file.js'></script>`
 3. CONSOLE (Chrome DevTools)
 4. DEFINITIONS: 
 - instruction (2 + 3 = 5;),
