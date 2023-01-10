@@ -21,7 +21,7 @@
     |   ARRAY  |
     |          |
 -- - ========== - --
--  shift()      push()
+-  shift()      pop()
 
 - slice()
 - splice()
