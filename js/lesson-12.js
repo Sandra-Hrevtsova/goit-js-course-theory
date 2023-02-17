@@ -66,7 +66,7 @@ function validateTextInput(textInput){
     }
 }
 
-const rangeInput = document.querySelector('[name="range"]');
+
 document.querySelector('[name="range"]').addEventListener('change', (e) => {
     console.log(e.target.value);
     console.log(e.currentTarget);
