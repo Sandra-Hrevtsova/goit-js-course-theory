@@ -16,3 +16,5 @@ npm test
 
 npm run build
 npm run deploy
+
+WEBPACK https://github.com/Sandra-Hrevtsova/webpack-2023
