@@ -1,0 +1,25 @@
+{
+  "name": "goit-js-course-theory",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "",
+    "build": "",
+    "predeploy": "",
+    "deploy": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sandra-Hrevtsova/goit-js-course-theory.git"
+  },
+  "author": "Sandra Hrevtsova",
+  "license": "MIT",
+  "homepage": "",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "debounce": "^1.2.1",
+    "throttle": "^1.0.3"
+  }
+}
