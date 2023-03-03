@@ -9,3 +9,24 @@
 input {
     outline: none;
 }
+
+.userDataForm {
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin: auto;
+    padding: 10px;
+    border: 1px solid;
+}
+
+.userDataForm input {
+    margin-bottom: 10px;
+}
+
+.sendBtn {
+    display: block;
+    margin: auto;
+    margin-top: 10px;
+}
