@@ -17,6 +17,7 @@
   "license": "MIT",
   "homepage": "",
   "dependencies": {
+    "json-server": "^0.17.3"
   },
   "devDependencies": {
     "debounce": "^1.2.1",
