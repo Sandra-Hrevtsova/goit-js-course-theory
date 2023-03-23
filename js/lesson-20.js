@@ -15,7 +15,7 @@ loadMoreButton.type = 'button';
 loadMoreButton.textContent = 'Load more...'
 
 
-function getFetch(value, p) {
+async function getFetch(value, p) {
     const API_KEY = '563492ad6f91700001000001390f9fee0a794c1182a72e49e0e0eae2';
     const options = {
         headers: {
@@ -24,25 +24,33 @@ function getFetch(value, p) {
     }
     let queryParams = `?query=${value}&orientation=landscape&per_page=1&page=${p}`;
     const url = `https://api.pexels.com/v1/search${queryParams}`;
-    return fetch(url, options).then((response) => {
-        if (response.status === 400) {
-            throw new Error('Bad request: empty query value.')
-        }
-        if (response.status === 401) {
-            throw new Error('CHECK YOUR API KEY!!!')
-        }
-        return response.json();
-    })
-    .then(data => {
+    try {
+        const response = await fetch(url, options);
+        const data = await response.json();
         page = data.page + 1;
         getResults(data.photos);
-    })
-    .catch((error) => {
-        console.log('ERROR:', error.message);
-    })
-    .finally(() => {
-        input.value = ''
-    })
+    } catch(err){
+        console.log(err);
+    }
+    // return fetch(url, options).then((response) => {
+    //     if (response.status === 400) {
+    //         throw new Error('Bad request: empty query value.')
+    //     }
+    //     if (response.status === 401) {
+    //         throw new Error('CHECK YOUR API KEY!!!')
+    //     }
+    //     return response.json();
+    // })
+    // .then(data => {
+    //     page = data.page + 1;
+    //     getResults(data.photos);
+    // })
+    // .catch((error) => {
+    //     console.log('ERROR:', error.message);
+    // })
+    // .finally(() => {
+    //     input.value = ''
+    // })
 };
 
 let queryValue, page;
@@ -66,7 +74,7 @@ function createItem(source, description) {
 }
 
 function getResults (photos) {
-    const result = photos.map(image => createItem(image.src.tiny, image.alt)).join('')
+    const result = photos?.map(image => createItem(image.src.tiny, image.alt)).join('')
     resultsList.insertAdjacentHTML('beforeend', result)
     body.insertAdjacentElement('beforeend', loadMoreButton)
 }

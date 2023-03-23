@@ -31,7 +31,7 @@ form.append(nameInput, groupInput, postButton)
 
 body.insertAdjacentElement('afterbegin', form);
 
-form.addEventListener('submit', (e) => {
+form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const name = e.target.elements.name.value;
     const group = e.target.elements.group.value;
@@ -45,7 +45,9 @@ form.addEventListener('submit', (e) => {
         },
         body: JSON.stringify({name, group})
     }
-    fetch(url, options).then(response => console.log('RESPONSE:', response))
+    // fetch(url, options).then(response => console.log('RESPONSE:', response))
+    const response = await fetch(url, options);
+    console.log('RESPONSE:', response)
 })
 
 const getButton = document.createElement('button');
@@ -55,43 +57,14 @@ form.after(getButton);
 
 const resultsList = document.createElement('ul');
 
-getButton.addEventListener('click', () => {
+getButton.addEventListener('click', async () => {
     const url = base_url + edpoints.students;
-    fetch(url).then(response => {
-        // console.log('RESPONSE:', response);
-        return response.json();
-    }).then(data => {
-        // console.log('DATA:', data);
-        if (data.length > 0) {
-            // create elements
-            const elements = data.map(el => {
-                const elName = el.name;
-                const elGroup = el.group;
-                const elId = el.id;
-                const item = document.createElement('li');
-                item.setAttribute('data-id', elId);
-                const stName = document.createElement('h3');
-                stName.textContent = elName;
-                const stGroup = document.createElement('p');
-                stGroup.textContent = elGroup;
-
-                const removeButton = document.createElement('button');
-                removeButton.type = 'button';
-                removeButton.textContent = 'X';
-                removeButton.classList.add('removeItem');
-                item.append(stName, stGroup, removeButton);
-                return item;
-            })
-
-            // insert elements in resultsList
-            resultsList.append(...elements);
-            // resultsList insert after getButton
-            getButton.after(resultsList)
-        }
-    })
+    const response = await fetch(url);
+    const data = await response.json();
+    if(data.length > 0) createMarkup(data);
 })
 
-resultsList.addEventListener('click', (e) => {
+resultsList.addEventListener('click', async (e) => {
     // UPDATE Student
     if (e.target.nodeName === 'LI') {
         const studentId = e.target.dataset.id;
@@ -103,26 +76,19 @@ resultsList.addEventListener('click', (e) => {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({name})
         }
-        // fetch(url, putOptions).then(r => {
-        //     console.log('RES:', r);
-        // })
+        // await fetch(url, putOptions)
         const patchOptions = {
             method: 'PATCH',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({name})
         }
-        // fetch(url, patchOptions).then(r => {
-        //     console.log('RES:', r);
-        // })
+        // await fetch(url, patchOptions)
         const patchOptionsWithNewField = {
             method: 'PATCH',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({pets: ['cat']})
         }
-        
-        fetch(url, patchOptionsWithNewField).then(r => {
-            console.log('RESP:', r);
-        })
+        await fetch(url, patchOptionsWithNewField)
     };
 
     // DELETE student
@@ -130,7 +96,33 @@ resultsList.addEventListener('click', (e) => {
     if (e.target.classList.contains('removeItem')){
         const id = e.target.parentElement.dataset.id;
         const url = base_url + edpoints.students + `/${id}`;
-        fetch(url, {method: 'DELETE'}).then(r => console.log('RESPONSE:', r));
+        await fetch(url, {method: 'DELETE'});
     }
   
 })
+
+function createMarkup (data) {
+    const elements = data.map(el => {
+        const elName = el.name;
+        const elGroup = el.group;
+        const elId = el.id;
+        const item = document.createElement('li');
+        item.setAttribute('data-id', elId);
+        const stName = document.createElement('h3');
+        stName.textContent = elName;
+        const stGroup = document.createElement('p');
+        stGroup.textContent = elGroup;
+
+        const removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.textContent = 'X';
+        removeButton.classList.add('removeItem');
+        item.append(stName, stGroup, removeButton);
+        return item;
+    })
+
+    // insert elements in resultsList
+    resultsList.append(...elements);
+    // resultsList insert after getButton
+    getButton.after(resultsList)
+}

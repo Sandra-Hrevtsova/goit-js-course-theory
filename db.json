@@ -1,4 +1,13 @@
 {
-  "students": [],
+  "students": [
+    {
+      "name": "Sandra",
+      "group": "test",
+      "id": 1,
+      "pets": [
+        "cat"
+      ]
+    }
+  ],
   "products": []
 }
